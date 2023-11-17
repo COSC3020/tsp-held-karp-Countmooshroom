@@ -5,27 +5,28 @@ function tsp_hk(dist) {
         cities.push(i);
     }
     let best = Infinity;
+
+    //memoization
+    let cache = [];
+
     for (let i = 0; i < cities.length; i++) {
         let temp = heldKarp(cities, i);
         if (temp < best) { best = temp; }
     }
-    return best;
-
-    //Add some dynamic programming here
-
-
-    
+    return best;    
 
 
     function heldKarp(cities, start) {
+        let key = JSON.stringify([cities, start]);
+        if (cache[key] != undefined) { return cache[key]; }
+
         if (cities.length == 2) {
             //return length of tour that starts at start, goes directly to other city in cities
+            cache[key] = dist[cities[0]][cities[1]];
             return dist[cities[0]][cities[1]];
         }
 
-        else if (cities.length < 2) {
-            return 0;
-        }
+        else if (cities.length < 2) { return 0; }
 
         else {
             //return the minimum
@@ -41,6 +42,7 @@ function tsp_hk(dist) {
                 let d = heldKarp(newCities, newCities[i]) + dist[start][newCities[i]];
                 if (d < min) { min = d; }
             }
+            cache[key] = min;
             return min;
         }
     }
