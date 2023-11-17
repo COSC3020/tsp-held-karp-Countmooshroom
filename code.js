@@ -31,15 +31,15 @@ function tsp_hk(dist) {
             //return the minimum
             let min = Infinity;
 
+            //make list of cities excluding the start
+            let newCities = [...cities];
+            newCities.splice(cities.indexOf(start), 1);
+
             //for each city in cities, unless the city is start
-            for (city of cities) {
-                if (city != start) {
-                    //reduce the set of cities that are unvisited by one  (the old start), set the new start, add on the distance from old start to new start
-                    let newCities = [...cities];
-                    newCities.splice(cities.indexOf(start), 1);
-                    let d = heldKarp(newCities, city) + dist[start][city];
-                    if (d < min) { min = d; }
-                }
+            for (let i = 0; i < newCities.length; i++) {
+                //reduce the set of cities that are unvisited by one (the old start), set the new start, add on the distance from old start to new start
+                let d = heldKarp(newCities, newCities[i]) + dist[start][newCities[i]];
+                if (d < min) { min = d; }
             }
             return min;
         }
