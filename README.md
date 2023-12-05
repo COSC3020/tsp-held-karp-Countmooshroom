@@ -47,3 +47,12 @@ Test your new function; I've provided some basic testing code in `code.test.js`.
 What is the worst-case asymptotic time complexity of your implementation? What
 is the worst-case asymptotic memory complexity? Add your answer, including your
 reasoning, to this markdown file.
+
+## Answer
+
+If you run this algorithm with $n$ elements, it will run the heldKarp() function $n$ times.  Then, each of those will recursively run it $n - 1$ times, and so on until it hits the base case.  However, if the function has already been calculated and stored in the cache, it doesn't have to evaluate it again.  Thus, the algorithm will run for every subset of the $n$ items, which is $2^n$ times.  Each time it runs the function, it runs a splice function, which could take up to $n$ time.  This gives us a time complexity of $\Theta(n * 2^n)$.
+
+Since this algorithm stores every answer in a cache, it will store $2^n$ items.  Each item key will store between $1$ and $n$ cities plus the start city, so the average key length is $\frac{n + 1}{2}$ (which is $n$ asymptotically).  Each item also stores a value, which is just an integer.  With $2^n$ items that store $n$ length of memory, this algorithm has a memory complexity of $\Theta(n * 2^n)$.
+
+With the caching in the exercise, we don't have to worry about putting the array keys in order.  At the beginning, a for loop populates the cities array with numbers in order.  After this, it only changes the cities array by making copies or removing one item at a time, so the array can never have items out of order.
+
